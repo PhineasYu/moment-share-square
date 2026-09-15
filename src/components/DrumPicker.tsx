@@ -148,6 +148,20 @@ export function DrumPicker({
 
   return (
     <div className="drum-picker" style={{ ["--item-h" as string]: `${ITEM_H}px` }}>
+      <div className="drum" aria-hidden="true" style={{ height: ITEM_H * VISIBLE }}>
+        {values.map((v, i) => (
+          <div
+            key={v}
+            ref={(el) => {
+              itemRefs.current[i] = el;
+            }}
+            className="drum-item"
+          >
+            {v}
+            {unit ? ` ${unit}` : ""}
+          </div>
+        ))}
+      </div>
       <div className="drum-rule drum-rule-top" aria-hidden="true" />
       <div className="drum-rule drum-rule-bottom" aria-hidden="true" />
       <div
@@ -161,20 +175,7 @@ export function DrumPicker({
         onPointerDown={() => initAudio()}
         style={{ height: ITEM_H * VISIBLE }}
       >
-        <div className="drum" aria-hidden="true">
-          {values.map((v, i) => (
-            <div
-              key={v}
-              ref={(el) => {
-                itemRefs.current[i] = el;
-              }}
-              className="drum-item"
-            >
-              {v}
-              {unit ? ` ${unit}` : ""}
-            </div>
-          ))}
-        </div>
+
         <div style={{ paddingTop: PAD, paddingBottom: PAD }}>
           {values.map((v, i) => (
             <div
