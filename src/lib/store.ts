@@ -154,13 +154,10 @@ export function canRespond(moment: Moment, person: PersonId) {
 /** Commit a new cell. Responds to the newest moment when possible, else opens a new one. */
 export function commit(input: { kind: "photo" | "emoji"; photoUrl?: string; emoji?: string }) {
   const person = state.perspective;
-  const cell: Cell = {
-    kind: input.kind,
-    photoUrl: input.photoUrl,
-    emoji: input.emoji,
-    timestamp: nowStamp(),
-    city: people[person].city,
-  };
+  const cell: Cell =
+    input.kind === "emoji"
+      ? emoji(input.emoji ?? "🙂", nowStamp(), people[person].city)
+      : photo(input.photoUrl ?? "", nowStamp(), people[person].city);
 
   const newest = state.moments[0];
   if (newest && canRespond(newest, person)) {
