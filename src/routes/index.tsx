@@ -30,6 +30,7 @@ export const Route = createFileRoute("/")({
 function Column() {
   const { moments, perspective, justPairedId, justCreatedId } = useStore();
   const [sheetOpen, setSheetOpen] = useState(false);
+  const [freeFor, setFreeFor] = useState<number | null>(null);
   const [activeId, setActiveId] = useState<string | null>(moments[0]?.id ?? null);
   const [detail, setDetail] = useState<{ moment: Moment; from: DOMRect } | null>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
@@ -136,11 +137,15 @@ function Column() {
           style={{ fontSize: 15 }}
           onClick={() => setSheetOpen(true)}
         >
-          Start a new one
+          {freeFor === null ? "Start a new one" : `Start a new one · free for ${freeFor} min`}
         </button>
       </footer>
 
-      <AddSheet open={sheetOpen} onClose={() => setSheetOpen(false)} />
+      <AddSheet
+        open={sheetOpen}
+        onClose={() => setSheetOpen(false)}
+        onWindow={(m) => setFreeFor(m)}
+      />
 
       {detail ? (
         <Detail

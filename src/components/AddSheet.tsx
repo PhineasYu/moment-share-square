@@ -1,12 +1,23 @@
 import { useEffect, useRef, useState } from "react";
 
+import { DrumPicker } from "@/components/DrumPicker";
 import { commit } from "@/lib/store";
 
 const EMOJI = ["🙂", "🥲", "😂", "🫶", "👀", "🌙", "☕️", "🚶"];
 
-export function AddSheet({ open, onClose }: { open: boolean; onClose: () => void }) {
+export function AddSheet({
+  open,
+  onClose,
+  onWindow,
+}: {
+  open: boolean;
+  onClose: () => void;
+  onWindow?: (minutes: number) => void;
+}) {
   const [mounted, setMounted] = useState(open);
   const [emojiOpen, setEmojiOpen] = useState(false);
+  const [windowOpen, setWindowOpen] = useState(false);
+  const [minutes, setMinutes] = useState(20);
   const cameraRef = useRef<HTMLInputElement>(null);
   const fileRef = useRef<HTMLInputElement>(null);
   const startY = useRef<number | null>(null);
@@ -20,6 +31,7 @@ export function AddSheet({ open, onClose }: { open: boolean; onClose: () => void
     const t = setTimeout(() => {
       setMounted(false);
       setEmojiOpen(false);
+      setWindowOpen(false);
     }, 220);
     return () => clearTimeout(t);
   }, [open, mounted]);
@@ -120,6 +132,43 @@ export function AddSheet({ open, onClose }: { open: boolean; onClose: () => void
             ))}
           </div>
         </div>
+
+        <div style={{ height: 1, background: "#000" }} />
+        <button
+          type="button"
+          className={row}
+          style={{ height: 56 }}
+          aria-expanded={windowOpen}
+          onClick={() => setWindowOpen((v) => !v)}
+        >
+          I have time
+        </button>
+
+        {windowOpen ? (
+          <>
+            <div style={{ height: 1, background: "#000" }} />
+            <div className="px-5 py-6">
+              <DrumPicker
+                values={[5, 10, 15, 20, 30, 45, 60, 90]}
+                value={minutes}
+                onChange={setMinutes}
+                unit="min"
+                label="Call window length"
+              />
+              <button
+                type="button"
+                className="pressable mt-6 flex w-full items-center justify-center"
+                style={{ height: 48, border: "1px solid #000", fontSize: 15 }}
+                onClick={() => {
+                  onWindow?.(minutes);
+                  onClose();
+                }}
+              >
+                I&apos;m free for {minutes} min
+              </button>
+            </div>
+          </>
+        ) : null}
       </div>
     </div>
   );
