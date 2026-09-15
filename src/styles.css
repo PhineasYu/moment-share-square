@@ -174,30 +174,105 @@
   }
 }
 
-/* Timestamp on a cell */
+/* ---- motion tokens ---- */
+:root {
+  --dur-fast: 180ms;
+  --dur-base: 280ms;
+  --dur-reveal: 320ms;
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-enter: cubic-bezier(0.32, 0.72, 0, 1);
+  --ease-click: cubic-bezier(0.34, 1.4, 0.64, 1);
+}
+
+:focus-visible {
+  outline: 1px solid #000;
+  outline-offset: 2px;
+}
+
+/* ---- the rectangle ---- */
+.rect {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 2 / 1;
+  border: 1px solid #000;
+  box-sizing: border-box;
+  background: #fff;
+  overflow: hidden;
+}
+
+.cell {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  overflow: hidden;
+  background: #fff;
+}
+
+.cell-left {
+  left: 0;
+  z-index: 2;
+  transition: width var(--dur-reveal) var(--ease-out);
+}
+
+.cell-right {
+  right: 0;
+  width: 50%;
+  z-index: 1;
+}
+
+.divider {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  width: 1px;
+  background: #000;
+  z-index: 3;
+  pointer-events: none;
+  transition: opacity 120ms linear 200ms;
+}
+
+.scrim {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 38%;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.55) 0%, rgba(0, 0, 0, 0) 100%);
+  pointer-events: none;
+}
+
 .stamp {
   position: absolute;
   left: 10px;
   bottom: 10px;
   z-index: 2;
-  font-size: 13px;
+  font-size: 12px;
+  font-weight: 400;
   letter-spacing: 0.01em;
   color: #fff;
-  mix-blend-mode: difference;
   pointer-events: none;
 }
 
-.detail .stamp {
-  font-size: 18px;
+.stamp-dark {
+  color: #000;
 }
 
-/* Date above a rectangle */
+.detail .stamp {
+  font-size: 15px;
+}
+
 .stamp-date {
   font-size: 13px;
   letter-spacing: 0.01em;
 }
 
-/* Emoji cell: 46% of the square's height */
+.detail-date {
+  font-size: 15px;
+  letter-spacing: 0.01em;
+}
+
+/* emoji fills its square */
 .emoji-wrap {
   container-type: size;
 }
@@ -207,7 +282,7 @@
   line-height: 1;
 }
 
-/* The only glyph: two strokes */
+/* the only glyph: two 1px strokes */
 .plus {
   position: absolute;
   left: 50%;
@@ -221,66 +296,78 @@
 .plus::after {
   content: "";
   position: absolute;
-  background: var(--color-foreground);
+  background: #000;
 }
 
 .plus::before {
   left: 0;
-  top: 9px;
+  top: 9.5px;
   width: 20px;
-  height: 2px;
+  height: 1px;
 }
 
 .plus::after {
   top: 0;
-  left: 9px;
+  left: 9.5px;
   height: 20px;
-  width: 2px;
+  width: 1px;
 }
 
-/* Ambient breathing of the one empty cell */
+.cell-empty:active .plus::before,
+.cell-empty:active .plus::after {
+  background: #fff;
+}
+
+/* press inversion — the one feedback idiom */
+.pressable {
+  background: #fff;
+  color: #000;
+  transition:
+    background-color var(--dur-fast) linear,
+    color var(--dur-fast) linear;
+}
+
+.pressable:active {
+  background: #000;
+  color: #fff;
+  transition: none;
+}
+
+.plus-fade {
+  transition:
+    opacity 160ms var(--ease-out) 160ms,
+    transform 160ms var(--ease-out) 160ms;
+}
+
 @keyframes breathe {
   0%,
   100% {
     opacity: 1;
   }
   50% {
-    opacity: 0.45;
+    opacity: 0.42;
   }
 }
 
 .breathing {
-  animation: breathe 2.4s ease-in-out infinite;
+  animation: breathe 2400ms ease-in-out infinite;
 }
 
-/* Pairing animation: State B -> State C/D */
-@keyframes pair-left {
+/* ---- pairing ---- */
+@keyframes pair-enter {
   from {
-    width: 100%;
-  }
-  85% {
-    width: calc(50% - 4px);
-  }
-  to {
-    width: 50%;
-  }
-}
-
-@keyframes pair-right {
-  from {
-    transform: translateX(100%);
-  }
-  85% {
-    transform: translateX(-4px);
+    transform: translateX(12%);
+    opacity: 0;
   }
   to {
     transform: translateX(0);
+    opacity: 1;
   }
 }
 
 @keyframes pair-divider {
   0%,
-  99% {
+  92% {
     opacity: 0;
   }
   100% {
@@ -288,23 +375,107 @@
   }
 }
 
-.pairing .pair-left {
-  animation: pair-left 280ms cubic-bezier(0.22, 1, 0.36, 1) both;
+@keyframes pair-pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.88;
+  }
 }
 
-.pairing .pair-right {
-  animation: pair-right 280ms cubic-bezier(0.22, 1, 0.36, 1) both;
+.pairing .cell-right {
+  animation: pair-enter var(--dur-base) var(--ease-click) both;
 }
 
-.pairing .pair-divider {
-  animation: pair-divider 280ms linear both;
+.pairing .divider {
+  animation: pair-divider var(--dur-base) linear both;
+  transition: none;
+}
+
+.pairing {
+  animation: pair-pulse 160ms linear 320ms both;
+}
+
+/* ---- newly committed moment ---- */
+@keyframes item-enter {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.item-enter {
+  animation: item-enter 240ms var(--ease-out) both;
+}
+
+/* ---- scroll focus ---- */
+.focusable {
+  opacity: 0.35;
+  transition: opacity 200ms linear;
+}
+
+.focusable.is-active {
+  opacity: 1;
+}
+
+/* ---- add sheet ---- */
+@keyframes sheet-in {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+@keyframes sheet-out {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(100%);
+  }
+}
+
+.sheet-in {
+  animation: sheet-in var(--dur-base) var(--ease-enter) both;
+}
+
+.sheet-out {
+  animation: sheet-out 220ms var(--ease-enter) both;
+}
+
+.emoji-row {
+  overflow: hidden;
+  height: 0;
+  transition: height 200ms var(--ease-out);
+}
+
+.emoji-row.open {
+  height: 56px;
+}
+
+.emoji-row-inner {
+  opacity: 0;
+  transition: opacity 120ms linear 80ms;
+}
+
+.emoji-row.open .emoji-row-inner {
+  opacity: 1;
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .breathing,
-  .pairing .pair-left,
-  .pairing .pair-right,
-  .pairing .pair-divider {
+  *,
+  *::before,
+  *::after {
     animation: none !important;
+    transition: none !important;
   }
 }
+

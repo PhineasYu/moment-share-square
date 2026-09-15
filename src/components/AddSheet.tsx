@@ -1,29 +1,60 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import { commit } from "@/lib/store";
 
 const EMOJI = ["🙂", "🥲", "😂", "🫶", "👀", "🌙", "☕️", "🚶"];
 
 export function AddSheet({ open, onClose }: { open: boolean; onClose: () => void }) {
-  const [showEmoji, setShowEmoji] = useState(false);
+  const [mounted, setMounted] = useState(open);
+  const [emojiOpen, setEmojiOpen] = useState(false);
   const cameraRef = useRef<HTMLInputElement>(null);
   const fileRef = useRef<HTMLInputElement>(null);
+  const startY = useRef<number | null>(null);
 
-  if (!open) return null;
+  useEffect(() => {
+    if (open) {
+      setMounted(true);
+      return;
+    }
+    if (!mounted) return;
+    const t = setTimeout(() => {
+      setMounted(false);
+      setEmojiOpen(false);
+    }, 220);
+    return () => clearTimeout(t);
+  }, [open, mounted]);
+
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") onClose();
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [onClose]);
+
+  if (!mounted) return null;
 
   const handleFile = (file: File | undefined) => {
     if (!file) return;
     commit({ kind: "photo", photoUrl: URL.createObjectURL(file) });
-    setShowEmoji(false);
     onClose();
   };
 
+  const row = "pressable flex w-full items-center px-5 text-left";
+
   return (
     <div className="fixed inset-0 z-50 flex items-end" onClick={onClose}>
-      <div className="absolute inset-0 bg-background opacity-60" />
       <div
-        className="relative mx-auto w-full max-w-[420px] border-2 border-foreground bg-background"
+        className={`relative mx-auto w-full max-w-[420px] bg-background ${open ? "sheet-in" : "sheet-out"}`}
+        style={{ borderTop: "1px solid #000" }}
         onClick={(e) => e.stopPropagation()}
+        onTouchStart={(e) => {
+          startY.current = e.touches[0]?.clientY ?? null;
+        }}
+        onTouchMove={(e) => {
+          const y = e.touches[0]?.clientY;
+          if (startY.current !== null && y !== undefined && y - startY.current > 40) onClose();
+        }}
       >
         <input
           ref={cameraRef}
@@ -43,49 +74,52 @@ export function AddSheet({ open, onClose }: { open: boolean; onClose: () => void
 
         <button
           type="button"
-          className="w-full px-5 py-5 text-left"
+          className={row}
+          style={{ height: 56 }}
           onClick={() => cameraRef.current?.click()}
         >
           Take a photo
         </button>
-        <div className="h-0.5 w-full bg-foreground" />
+        <div style={{ height: 1, background: "#000" }} />
         <button
           type="button"
-          className="w-full px-5 py-5 text-left"
+          className={row}
+          style={{ height: 56 }}
           onClick={() => fileRef.current?.click()}
         >
           Choose a photo
         </button>
-        <div className="h-0.5 w-full bg-foreground" />
+        <div style={{ height: 1, background: "#000" }} />
         <button
           type="button"
-          className="w-full px-5 py-5 text-left"
-          onClick={() => setShowEmoji(true)}
+          className={row}
+          style={{ height: 56 }}
+          aria-expanded={emojiOpen}
+          onClick={() => setEmojiOpen((v) => !v)}
         >
           Send an emoji
         </button>
 
-        {showEmoji ? (
-          <>
-            <div className="h-0.5 w-full bg-foreground" />
-            <div className="flex items-center justify-between px-5 py-5">
-              {EMOJI.map((glyph) => (
-                <button
-                  key={glyph}
-                  type="button"
-                  style={{ fontSize: 24 }}
-                  onClick={() => {
-                    commit({ kind: "emoji", emoji: glyph });
-                    setShowEmoji(false);
-                    onClose();
-                  }}
-                >
-                  {glyph}
-                </button>
-              ))}
-            </div>
-          </>
-        ) : null}
+        <div className={`emoji-row ${emojiOpen ? "open" : ""}`}>
+          <div style={{ height: 1, background: "#000" }} />
+          <div className="emoji-row-inner flex items-center justify-between px-5" style={{ height: 55 }}>
+            {EMOJI.map((glyph) => (
+              <button
+                key={glyph}
+                type="button"
+                className="flex h-11 w-11 items-center justify-center"
+                style={{ fontSize: 28, lineHeight: 1 }}
+                tabIndex={emojiOpen ? 0 : -1}
+                onClick={() => {
+                  commit({ kind: "emoji", emoji: glyph });
+                  onClose();
+                }}
+              >
+                {glyph}
+              </button>
+            ))}
+          </div>
+        </div>
       </div>
     </div>
   );
