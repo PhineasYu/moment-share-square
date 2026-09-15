@@ -11,7 +11,7 @@ function Stamp({ cell }: { cell: Cell }) {
 function CellView({ cell }: { cell: Cell }) {
   if (cell.kind === "emoji") {
     return (
-      <div className="flex h-full w-full items-center justify-center bg-background">
+      <div className="emoji-wrap flex h-full w-full items-center justify-center bg-background">
         <span className="emoji-cell">{cell.emoji}</span>
       </div>
     );
