@@ -30,6 +30,7 @@ export const Route = createFileRoute("/")({
 function Column() {
   const { moments, perspective, justPairedId, justCreatedId } = useStore();
   const [sheetOpen, setSheetOpen] = useState(false);
+  const [freeFor, setFreeFor] = useState<number | null>(null);
   const [activeId, setActiveId] = useState<string | null>(moments[0]?.id ?? null);
   const [detail, setDetail] = useState<{ moment: Moment; from: DOMRect } | null>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
