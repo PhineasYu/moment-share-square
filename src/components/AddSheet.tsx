@@ -31,6 +31,7 @@ export function AddSheet({
     const t = setTimeout(() => {
       setMounted(false);
       setEmojiOpen(false);
+      setWindowOpen(false);
     }, 220);
     return () => clearTimeout(t);
   }, [open, mounted]);
