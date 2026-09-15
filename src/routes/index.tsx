@@ -38,16 +38,11 @@ function Now() {
   const canAnswer = canRespond(newest, perspective);
 
   useEffect(() => {
-    const el = sentinel.current;
-    if (!el) return;
-    const io = new IntersectionObserver(
-      (entries) => {
-        if (entries[0]?.isIntersecting) navigate({ to: "/timeline" });
-      },
-      { threshold: 0.6 },
-    );
-    io.observe(el);
-    return () => io.disconnect();
+    const onScroll = () => {
+      if (window.scrollY > 120) navigate({ to: "/timeline" });
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
   }, [navigate]);
 
   return (
