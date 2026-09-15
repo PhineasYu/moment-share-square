@@ -1,12 +1,23 @@
 import { useEffect, useRef, useState } from "react";
 
+import { DrumPicker } from "@/components/DrumPicker";
 import { commit } from "@/lib/store";
 
 const EMOJI = ["🙂", "🥲", "😂", "🫶", "👀", "🌙", "☕️", "🚶"];
 
-export function AddSheet({ open, onClose }: { open: boolean; onClose: () => void }) {
+export function AddSheet({
+  open,
+  onClose,
+  onWindow,
+}: {
+  open: boolean;
+  onClose: () => void;
+  onWindow?: (minutes: number) => void;
+}) {
   const [mounted, setMounted] = useState(open);
   const [emojiOpen, setEmojiOpen] = useState(false);
+  const [windowOpen, setWindowOpen] = useState(false);
+  const [minutes, setMinutes] = useState(20);
   const cameraRef = useRef<HTMLInputElement>(null);
   const fileRef = useRef<HTMLInputElement>(null);
   const startY = useRef<number | null>(null);
