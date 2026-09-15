@@ -132,13 +132,179 @@
   --sidebar-ring: oklch(0.551 0.027 264.364);
 }
 
+/* ---- Beside: strict black & white system ---- */
+
+:root,
+.dark {
+  --radius: 0px;
+  --background: oklch(1 0 0);
+  --foreground: oklch(0 0 0);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0 0 0);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0 0 0);
+  --primary: oklch(0 0 0);
+  --primary-foreground: oklch(1 0 0);
+  --secondary: oklch(1 0 0);
+  --secondary-foreground: oklch(0 0 0);
+  --muted: oklch(1 0 0);
+  --muted-foreground: oklch(0 0 0);
+  --accent: oklch(1 0 0);
+  --accent-foreground: oklch(0 0 0);
+  --destructive: oklch(0 0 0);
+  --destructive-foreground: oklch(1 0 0);
+  --border: oklch(0 0 0);
+  --input: oklch(0 0 0);
+  --ring: oklch(0 0 0);
+}
+
 @layer base {
   * {
     border-color: var(--color-border);
+    border-radius: 0 !important;
   }
 
+  html,
   body {
     background-color: var(--color-background);
     color: var(--color-foreground);
+    font-family: "General Sans", "Archivo", system-ui, sans-serif;
+    font-weight: 400;
+    -webkit-font-smoothing: antialiased;
+  }
+}
+
+/* Timestamp on a cell */
+.stamp {
+  position: absolute;
+  left: 10px;
+  bottom: 10px;
+  z-index: 2;
+  font-size: 13px;
+  letter-spacing: 0.01em;
+  color: #fff;
+  mix-blend-mode: difference;
+  pointer-events: none;
+}
+
+.detail .stamp {
+  font-size: 18px;
+}
+
+/* Date above a rectangle */
+.stamp-date {
+  font-size: 13px;
+  letter-spacing: 0.01em;
+}
+
+/* Emoji cell: 46% of the square's height */
+.emoji-wrap {
+  container-type: size;
+}
+
+.emoji-cell {
+  font-size: 46cqh;
+  line-height: 1;
+}
+
+/* The only glyph: two strokes */
+.plus {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 20px;
+  height: 20px;
+  transform: translate(-50%, -50%);
+}
+
+.plus::before,
+.plus::after {
+  content: "";
+  position: absolute;
+  background: var(--color-foreground);
+}
+
+.plus::before {
+  left: 0;
+  top: 9px;
+  width: 20px;
+  height: 2px;
+}
+
+.plus::after {
+  top: 0;
+  left: 9px;
+  height: 20px;
+  width: 2px;
+}
+
+/* Ambient breathing of the one empty cell */
+@keyframes breathe {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.45;
+  }
+}
+
+.breathing {
+  animation: breathe 2.4s ease-in-out infinite;
+}
+
+/* Pairing animation: State B -> State C/D */
+@keyframes pair-left {
+  from {
+    width: 100%;
+  }
+  85% {
+    width: calc(50% - 4px);
+  }
+  to {
+    width: 50%;
+  }
+}
+
+@keyframes pair-right {
+  from {
+    transform: translateX(100%);
+  }
+  85% {
+    transform: translateX(-4px);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+@keyframes pair-divider {
+  0%,
+  99% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.pairing .pair-left {
+  animation: pair-left 280ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.pairing .pair-right {
+  animation: pair-right 280ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.pairing .pair-divider {
+  animation: pair-divider 280ms linear both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .breathing,
+  .pairing .pair-left,
+  .pairing .pair-right,
+  .pairing .pair-divider {
+    animation: none !important;
   }
 }
