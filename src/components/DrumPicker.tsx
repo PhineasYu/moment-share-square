@@ -74,7 +74,10 @@ export function DrumPicker({
   }, [sound, values.length]);
 
   const settle = useCallback(() => {
-    const idx = lastIdx.current;
+    const vp = viewportRef.current;
+    const idx = vp
+      ? Math.max(0, Math.min(values.length - 1, Math.round(vp.scrollTop / ITEM_H)))
+      : lastIdx.current;
     const v = values[idx];
     if (v !== undefined && v !== value) onChange(v);
   }, [onChange, value, values]);
