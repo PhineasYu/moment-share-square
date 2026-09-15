@@ -104,13 +104,16 @@ type State = {
   perspective: PersonId;
   moments: Moment[];
   justPairedId: string | null;
+  justCreatedId: string | null;
 };
 
 let state: State = {
   perspective: "you",
   moments: SEED,
   justPairedId: null,
+  justCreatedId: null,
 };
+
 
 const listeners = new Set<() => void>();
 
