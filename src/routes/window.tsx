@@ -38,7 +38,7 @@ function CallWindow() {
 
       <main className="flex-1 flex flex-col items-center justify-center gap-10 px-6">
         <h1 className="text-[15px] tracking-[0.04em]">I have</h1>
-        <div className="w-full max-w-[280px] border-y border-black">
+        <div className="w-full max-w-[280px]">
           <DrumPicker
             values={[5, 10, 15, 20, 30, 45, 60, 90]}
             value={minutes}
