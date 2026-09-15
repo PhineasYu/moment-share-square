@@ -132,6 +132,43 @@ export function AddSheet({
             ))}
           </div>
         </div>
+
+        <div style={{ height: 1, background: "#000" }} />
+        <button
+          type="button"
+          className={row}
+          style={{ height: 56 }}
+          aria-expanded={windowOpen}
+          onClick={() => setWindowOpen((v) => !v)}
+        >
+          I have time
+        </button>
+
+        {windowOpen ? (
+          <>
+            <div style={{ height: 1, background: "#000" }} />
+            <div className="px-5 py-6">
+              <DrumPicker
+                values={[5, 10, 15, 20, 30, 45, 60, 90]}
+                value={minutes}
+                onChange={setMinutes}
+                unit="min"
+                label="Call window length"
+              />
+              <button
+                type="button"
+                className="pressable mt-6 flex w-full items-center justify-center"
+                style={{ height: 48, border: "1px solid #000", fontSize: 15 }}
+                onClick={() => {
+                  onWindow?.(minutes);
+                  onClose();
+                }}
+              >
+                I&apos;m free for {minutes} min
+              </button>
+            </div>
+          </>
+        ) : null}
       </div>
     </div>
   );
