@@ -87,7 +87,7 @@ function Column() {
           scrollSnapType: "y mandatory",
         }}
       >
-        <div className="mx-auto w-full max-w-[420px] px-5" style={{ paddingTop: 40 }}>
+        <div className="mx-auto w-full max-w-[420px] px-5" style={{ paddingTop: "25vh", paddingBottom: "25vh" }}>
           {moments.map((moment, i) => {
             const isNewest = i === 0;
             return (
