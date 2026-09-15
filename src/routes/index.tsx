@@ -137,11 +137,15 @@ function Column() {
           style={{ fontSize: 15 }}
           onClick={() => setSheetOpen(true)}
         >
-          Start a new one
+          {freeFor === null ? "Start a new one" : `Start a new one · free for ${freeFor} min`}
         </button>
       </footer>
 
-      <AddSheet open={sheetOpen} onClose={() => setSheetOpen(false)} />
+      <AddSheet
+        open={sheetOpen}
+        onClose={() => setSheetOpen(false)}
+        onWindow={(m) => setFreeFor(m)}
+      />
 
       {detail ? (
         <Detail
