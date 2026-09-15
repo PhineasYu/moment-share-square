@@ -68,13 +68,13 @@ function Now() {
         {next ? (
           <div className="mt-16">
             <p className="stamp-date">{formatDate(next.initiatorCell.timestamp)}</p>
-            <div className="mt-3 h-[26vw] max-h-[105px] overflow-hidden">
+            <div className="mt-3 h-[10vw] max-h-[42px] overflow-hidden">
               <Rectangle moment={next} perspective={perspective} />
             </div>
           </div>
         ) : null}
 
-        <div ref={sentinel} className="h-24" />
+        <div ref={sentinel} className="h-40" />
       </main>
 
       <AddSheet open={sheetOpen} onClose={() => setSheetOpen(false)} />
