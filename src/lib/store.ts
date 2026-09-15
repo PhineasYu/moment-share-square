@@ -136,8 +136,9 @@ export function useStore() {
 }
 
 export function setPerspective(perspective: PersonId) {
-  set({ perspective, justPairedId: null });
+  set({ perspective, justPairedId: null, justCreatedId: null });
 }
+
 
 function nowStamp() {
   const d = new Date();
@@ -167,6 +168,7 @@ export function commit(input: { kind: "photo" | "emoji"; photoUrl?: string; emoj
     set({
       moments: state.moments.map((m) => (m.id === newest.id ? { ...m, responderCell: cell } : m)),
       justPairedId: newest.id,
+      justCreatedId: null,
     });
     return;
   }
@@ -177,8 +179,9 @@ export function commit(input: { kind: "photo" | "emoji"; photoUrl?: string; emoj
     initiatorCell: cell,
     responderCell: null,
   };
-  set({ moments: [moment, ...state.moments], justPairedId: null });
+  set({ moments: [moment, ...state.moments], justPairedId: null, justCreatedId: moment.id });
 }
+
 
 export function formatTime(timestamp: string) {
   return timestamp.slice(11, 16);
