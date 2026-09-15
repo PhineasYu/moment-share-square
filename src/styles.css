@@ -479,3 +479,86 @@
   }
 }
 
+
+/* ---------------------------------------------------------------
+   DrumPicker — 3D cylindrical scalar picker (1px Beside system)
+---------------------------------------------------------------- */
+.drum-picker {
+  position: relative;
+  width: 100%;
+  perspective: 1000px;
+  color: #000;
+}
+
+.drum {
+  position: absolute;
+  inset: 0;
+  transform-style: preserve-3d;
+  pointer-events: none;
+}
+
+.drum-item {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  height: var(--item-h);
+  margin-top: calc(var(--item-h) / -2);
+  display: grid;
+  place-items: center;
+  font-size: 22px;
+  font-weight: 400;
+  letter-spacing: 0.01em;
+  transform-origin: center center;
+  backface-visibility: hidden;
+  will-change: transform, opacity;
+}
+
+.drum-rule {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: #000;
+  z-index: 2;
+  pointer-events: none;
+}
+.drum-rule-top {
+  top: calc(50% - var(--item-h) / 2);
+}
+.drum-rule-bottom {
+  top: calc(50% + var(--item-h) / 2);
+}
+
+.drum-viewport {
+  position: relative;
+  z-index: 3;
+  overflow-y: scroll;
+  scroll-snap-type: y mandatory;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+.drum-viewport::-webkit-scrollbar {
+  display: none;
+}
+.drum-viewport:focus-visible {
+  outline: 1px solid #000;
+  outline-offset: 2px;
+}
+
+.drum-proxy {
+  opacity: 0;
+  scroll-snap-align: center;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .drum-picker {
+    perspective: none;
+  }
+  .drum {
+    transform-style: flat;
+  }
+  .drum-item {
+    transition: none;
+  }
+}
