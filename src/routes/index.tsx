@@ -32,7 +32,7 @@ function Now() {
   const navigate = useNavigate();
   const sentinel = useRef<HTMLDivElement>(null);
 
-  const newest = moments[0];
+  const newest = moments[0]!;
   const next = moments[1];
   const mine = cellOf(newest, perspective);
   const canAnswer = canRespond(newest, perspective);
