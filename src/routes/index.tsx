@@ -90,7 +90,6 @@ function Column() {
         <div className="mx-auto w-full max-w-[420px] px-5" style={{ paddingTop: 40 }}>
           {moments.map((moment, i) => {
             const isNewest = i === 0;
-            const frameRef = { current: null as HTMLDivElement | null };
             return (
               <div
                 key={moment.id}
@@ -105,9 +104,6 @@ function Column() {
                 <div
                   role="button"
                   tabIndex={0}
-                  ref={(el) => {
-                    frameRef.current = el;
-                  }}
                   onClick={(e) => openDetail(moment, e.currentTarget)}
                   onKeyDown={(e) => {
                     if (e.key === "Enter" || e.key === " ") {
