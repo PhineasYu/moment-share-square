@@ -188,6 +188,8 @@
   font-family: "Cormorant Garamond", serif;
   font-size: 1.5rem;
   font-style: italic;
+  font-weight: 600;
+  color: #000;
   line-height: calc(1.5rem * 1.28 + 4px);
 }
 

@@ -32,7 +32,7 @@ export type Moment = {
 
 export const people: Record<PersonId, Person> = {
   you: { id: "you", name: "You", city: "Stockholm" },
-  friend: { id: "friend", name: "Mei", city: "Guangzhou" },
+  friend: { id: "friend", name: "Her", city: "Guangzhou" },
 };
 
 const photo = (photoUrl: string, timestamp: string, city: string): Cell => ({
