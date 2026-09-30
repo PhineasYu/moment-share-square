@@ -184,6 +184,13 @@
   --ease-click: cubic-bezier(0.34, 1.4, 0.64, 1);
 }
 
+.beside-reflection {
+  font-family: "Cormorant Garamond", serif;
+  font-size: 1.75rem;
+  font-style: italic;
+  line-height: 1.1;
+}
+
 :focus-visible {
   outline: 1px solid #000;
   outline-offset: 2px;

@@ -22,6 +22,8 @@ export const Route = createFileRoute("/")({
         content:
           "Beside is a quiet two-person app. Share a photo or a single emoji. A reply is an invitation, never a debt.",
       },
+       { property: "og:type", content: "website" },
+       { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
   component: Column,
@@ -88,7 +90,10 @@ function Column() {
           scrollSnapType: "y mandatory",
         }}
       >
-        <div className="mx-auto w-full max-w-[420px] px-5" style={{ paddingTop: "25vh", paddingBottom: "25vh" }}>
+        <div className="mx-auto w-full max-w-[420px] px-5 pb-[25vh] pt-20">
+          <p className="beside-reflection mb-12 max-w-[19rem]">
+            When you cross my mind, what is unfolding beneath your sky?
+          </p>
           {moments.map((moment, i) => {
             const isNewest = i === 0;
             return (
