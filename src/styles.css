@@ -605,9 +605,19 @@
 }
 
 .sheet-sep {
+  position: relative;
+  width: 100%;
+  height: 2px;
+  background: #f3f3f1;
+  pointer-events: none;
+}
+.sheet-sep::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 0;
   width: 56px;
   height: 2px;
-  margin: 0 auto;
+  transform: translateX(-50%);
   background: #fff;
-  pointer-events: none;
 }
