@@ -27,7 +27,7 @@ export function Header() {
       <div className="mx-auto flex h-full w-full max-w-[420px] items-center justify-between px-5">
         <span className="flex items-center">
           <Mark />
-          <span style={{ marginLeft: 10, fontSize: 15, fontWeight: 500 }}>beside</span>
+          <span style={{ marginLeft: 10, fontSize: 15, fontWeight: 500 }}>Beside</span>
         </span>
         <div className="flex items-center" style={{ fontSize: 15 }}>
           <button
