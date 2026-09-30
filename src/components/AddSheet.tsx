@@ -52,13 +52,13 @@ export function AddSheet({
     onClose();
   };
 
-  const row = "pressable flex w-full items-center px-5 text-left";
+  const row = "sheet-row flex w-full items-center px-5 text-left";
 
   return (
     <div className="fixed inset-0 z-50 flex items-end" onClick={onClose}>
       <div
         className={`relative mx-auto w-full max-w-[420px] bg-background ${open ? "sheet-in" : "sheet-out"}`}
-        style={{ borderTop: "1px solid #000" }}
+        style={{ boxShadow: "0 -12px 32px rgba(0,0,0,0.06)", paddingTop: 12, paddingBottom: 12 }}
         onClick={(e) => e.stopPropagation()}
         onTouchStart={(e) => {
           startY.current = e.touches[0]?.clientY ?? null;
@@ -92,7 +92,7 @@ export function AddSheet({
         >
           Take a photo
         </button>
-        <div style={{ height: 1, background: "#000" }} />
+        <div style={{ height: 6 }} />
         <button
           type="button"
           className={row}
@@ -101,7 +101,7 @@ export function AddSheet({
         >
           Choose a photo
         </button>
-        <div style={{ height: 1, background: "#000" }} />
+        <div style={{ height: 6 }} />
         <button
           type="button"
           className={row}
@@ -113,7 +113,7 @@ export function AddSheet({
         </button>
 
         <div className={`emoji-row ${emojiOpen ? "open" : ""}`}>
-          <div style={{ height: 1, background: "#000" }} />
+          <div style={{ height: 6 }} />
           <div className="emoji-row-inner flex items-center justify-between px-5" style={{ height: 55 }}>
             {EMOJI.map((glyph) => (
               <button
@@ -133,7 +133,7 @@ export function AddSheet({
           </div>
         </div>
 
-        <div style={{ height: 1, background: "#000" }} />
+        <div style={{ height: 6 }} />
         <button
           type="button"
           className={row}
@@ -146,7 +146,7 @@ export function AddSheet({
 
         {windowOpen ? (
           <>
-            <div style={{ height: 1, background: "#000" }} />
+            <div style={{ height: 6 }} />
             <div className="px-5 py-6">
               <DrumPicker
                 values={[5, 10, 15, 20, 30, 45, 60, 90]}
@@ -157,8 +157,8 @@ export function AddSheet({
               />
               <button
                 type="button"
-                className="pressable mt-6 flex w-full items-center justify-center"
-                style={{ height: 48, border: "1px solid #000", fontSize: 15 }}
+                className="sheet-row mt-6 flex w-full items-center justify-center"
+                style={{ height: 48, fontSize: 15 }}
                 onClick={() => {
                   onWindow?.(minutes);
                   onClose();

@@ -99,6 +99,24 @@ function Column() {
     };
   }, [moments]);
 
+  // Top spacer so today's slot always sits at the visual centre at rest.
+  const [topPad, setTopPad] = useState(0);
+  const spacerRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    const measure = () => {
+      const root = scrollRef.current;
+      const today = itemRefs.current.get("today");
+      const spacer = spacerRef.current;
+      if (!root || !today || !spacer) return;
+      const before = today.offsetTop - spacer.offsetTop - spacer.offsetHeight;
+      const base = spacer.offsetTop + before + today.offsetHeight / 2;
+      setTopPad(Math.max(0, root.clientHeight / 2 - base));
+    };
+    measure();
+    window.addEventListener("resize", measure);
+    return () => window.removeEventListener("resize", measure);
+  }, []);
+
   // A newly committed moment brings the column back to the top.
   useEffect(() => {
     if (!justCreatedId) return;
@@ -135,6 +153,7 @@ function Column() {
           className="mx-auto w-full max-w-[420px] px-5 pt-10"
           style={{ paddingBottom: "max(25vh, calc(50vh - 56px - 110px))" }}
         >
+          <div ref={spacerRef} aria-hidden style={{ height: topPad }} />
           <p className="beside-reflection mb-8">
             When you cross my mind,
             <br />
@@ -197,7 +216,7 @@ function Column() {
 
       <footer
         className="fixed bottom-0 left-0 right-0 z-40"
-        style={{ height: 56, borderTop: "1px solid #000" }}
+        style={{ height: 56 }}
       >
         <button
           type="button"
