@@ -72,7 +72,13 @@ function Column() {
       raf = 0;
       const r = root.getBoundingClientRect();
       const cy = r.top + r.height / 2;
-      itemRefs.current.forEach((el) => {
+      itemRefs.current.forEach((el, id) => {
+        if (id === "today") {
+          // Today's slot is the anchor: always full width, never shrinks.
+          el.style.transform = "none";
+          el.style.opacity = "1";
+          return;
+        }
         const b = el.getBoundingClientRect();
         const d = Math.max(-1.6, Math.min(1.6, (b.top + b.height / 2 - cy) / (r.height / 2)));
         const a = Math.abs(d);
