@@ -1,5 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 
+import { Camera, Clock, Image as ImageIcon, Smile } from "lucide-react";
+
 import { DrumPicker } from "@/components/DrumPicker";
 import { commit } from "@/lib/store";
 
@@ -52,13 +54,14 @@ export function AddSheet({
     onClose();
   };
 
-  const row = "sheet-row flex w-full items-center px-5 text-left";
+  const row = "sheet-row flex w-full items-center justify-center gap-[10px]";
+  const sep = <div className="sheet-sep" aria-hidden="true" />;
 
   return (
     <div className="fixed inset-0 z-50 flex items-end" onClick={onClose}>
       <div
         className={`relative mx-auto w-full max-w-[420px] bg-background ${open ? "sheet-in" : "sheet-out"}`}
-        style={{ boxShadow: "0 -12px 32px rgba(0,0,0,0.06)", paddingTop: 12, paddingBottom: 12 }}
+        style={{ boxShadow: "0 -12px 32px rgba(0,0,0,0.06)", paddingTop: 0, paddingBottom: 8 }}
         onClick={(e) => e.stopPropagation()}
         onTouchStart={(e) => {
           startY.current = e.touches[0]?.clientY ?? null;
