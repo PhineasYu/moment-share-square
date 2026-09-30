@@ -61,7 +61,7 @@ export function AddSheet({
     <div className="fixed inset-0 z-50 flex items-end" onClick={onClose}>
       <div
         className={`relative mx-auto w-full max-w-[420px] bg-background ${open ? "sheet-in" : "sheet-out"}`}
-        style={{ boxShadow: "0 -12px 32px rgba(0,0,0,0.06)", paddingTop: 0, paddingBottom: 8 }}
+        style={{ boxShadow: "0 -12px 32px rgba(0,0,0,0.06)", paddingTop: 0, paddingBottom: 0 }}
         onClick={(e) => e.stopPropagation()}
         onTouchStart={(e) => {
           startY.current = e.touches[0]?.clientY ?? null;
