@@ -80,8 +80,10 @@ function Column() {
           el.style.opacity = String(1 - Math.min(a, 1) * 0.3);
           return;
         }
-        el.style.transform = `perspective(900px) rotateX(${-d * 38}deg) scale(${1 - Math.min(a, 1.2) * 0.28})`;
-        el.style.opacity = String(Math.max(0.55, 1 - a * 0.35));
+        // Ferris wheel: cards stay upright — no tilt, only depth (scale) and a gentle pull toward centre.
+        const s = 1 - Math.min(a, 1.2) * 0.2;
+        el.style.transform = `translate3d(0, ${-d * 14}px, 0) scale(${s})`;
+        el.style.opacity = String(Math.max(0.5, 1 - a * 0.4));
       });
     };
     const onScroll = () => {
@@ -123,20 +125,21 @@ function Column() {
           left: 0,
           right: 0,
           scrollSnapType: "y mandatory",
+          WebkitMaskImage:
+            "linear-gradient(to bottom, transparent 0, #000 72px, #000 calc(100% - 48px), transparent 100%)",
+          maskImage:
+            "linear-gradient(to bottom, transparent 0, #000 72px, #000 calc(100% - 48px), transparent 100%)",
         }}
       >
         <div
-          className="mx-auto w-full max-w-[420px] px-5 pt-6"
+          className="mx-auto w-full max-w-[420px] px-5 pt-10"
           style={{ paddingBottom: "max(25vh, calc(50vh - 56px - 110px))" }}
         >
-          {/* Intro block leaves room so even the first card can reach the centre. */}
-          <div style={{ minHeight: "max(0px, calc(50vh - 56px - 24px - 110px))" }}>
-            <p className="beside-reflection mb-12">
-              When you cross my mind,
-              <br />
-              what is unfolding beneath your sky?
-            </p>
-          </div>
+          <p className="beside-reflection mb-8">
+            When you cross my mind,
+            <br />
+            what is unfolding beneath your sky?
+          </p>
           <div
             data-id="today"
             ref={(el) => register("today", el)}
