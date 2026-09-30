@@ -125,12 +125,35 @@ function Column() {
           scrollSnapType: "y mandatory",
         }}
       >
-        <div className="mx-auto w-full max-w-[420px] px-5 pb-[25vh] pt-6">
-          <p className="beside-reflection mb-12">
-            When you cross my mind,
-            <br />
-            what is unfolding beneath your sky?
-          </p>
+        <div
+          className="mx-auto w-full max-w-[420px] px-5 pt-6"
+          style={{ paddingBottom: "max(25vh, calc(50vh - 56px - 110px))" }}
+        >
+          {/* Intro block leaves room so even the first card can reach the centre. */}
+          <div style={{ minHeight: "max(0px, calc(50vh - 56px - 24px - 110px))" }}>
+            <p className="beside-reflection mb-12">
+              When you cross my mind,
+              <br />
+              what is unfolding beneath your sky?
+            </p>
+          </div>
+          <div
+            data-id="today"
+            ref={(el) => register("today", el)}
+            className={`focusable ${activeId === "today" ? "is-active" : ""}`}
+            style={{ scrollSnapAlign: "center", marginBottom: 24 }}
+          >
+            <p className="stamp-date pb-3">{formatDate(new Date().toISOString())}</p>
+            <button
+              type="button"
+              aria-label="Add today's moment"
+              className="pressable today-slot relative block w-full"
+              onClick={() => setSheetOpen(true)}
+            >
+              <span className="plus" aria-hidden />
+            </button>
+          </div>
+
           {moments.map((moment, i) => {
             const isNewest = i === 0;
             return (
