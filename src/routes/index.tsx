@@ -90,8 +90,8 @@ function Column() {
           scrollSnapType: "y mandatory",
         }}
       >
-        <div className="mx-auto w-full max-w-[420px] px-5 pb-[25vh] pt-20">
-          <p className="beside-reflection mb-12 max-w-[19rem]">
+        <div className="mx-auto w-full max-w-[420px] px-5 pb-[25vh] pt-6">
+          <p className="beside-reflection mb-12">
             When you cross my mind, what is unfolding beneath your sky?
           </p>
           {moments.map((moment, i) => {
