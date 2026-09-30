@@ -121,7 +121,7 @@ export function AddSheet({
         <div className={`emoji-row ${emojiOpen ? "open" : ""}`}>
           <div
             className="emoji-row-inner flex items-center justify-between"
-            style={{ height: 56, background: "#f3f3f1" }}
+            style={{ height: 56, background: "rgba(255,255,255,0.55)" }}
           >
             {EMOJI.map((glyph) => (
               <button
