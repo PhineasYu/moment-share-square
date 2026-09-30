@@ -60,7 +60,7 @@ export function AddSheet({
   return (
     <div className="fixed inset-0 z-50 flex items-end" onClick={onClose}>
       <div
-        className={`relative mx-auto w-full max-w-[420px] bg-background ${open ? "sheet-in" : "sheet-out"}`}
+        className={`sheet-panel relative mx-auto w-full max-w-[420px] ${open ? "sheet-in" : "sheet-out"}`}
         style={{ boxShadow: "0 -12px 32px rgba(0,0,0,0.06)", paddingTop: 0, paddingBottom: 0 }}
         onClick={(e) => e.stopPropagation()}
         onTouchStart={(e) => {
@@ -121,7 +121,7 @@ export function AddSheet({
         <div className={`emoji-row ${emojiOpen ? "open" : ""}`}>
           <div
             className="emoji-row-inner flex items-center justify-between"
-            style={{ height: 56, background: "#f3f3f1" }}
+            style={{ height: 56, background: "rgba(255,255,255,0.55)" }}
           >
             {EMOJI.map((glyph) => (
               <button
