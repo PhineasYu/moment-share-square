@@ -194,6 +194,7 @@
 .today-slot {
   aspect-ratio: 2 / 1;
   border: 1px solid #000;
+  box-sizing: border-box;
 }
 
 .today-slot:active .plus::before,
