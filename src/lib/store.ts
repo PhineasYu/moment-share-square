@@ -36,7 +36,7 @@ export const people: Record<PersonId, Person> = {
 };
 
 let __n = 0;
-const PHOTO_IDS = [10, 11, 13, 15, 16, 17, 18, 19, 28, 29, 37, 39, 42, 48, 49, 50, 53, 54, 57, 58, 59, 60, 63, 65, 76, 84, 88, 96, 101, 103, 104, 106, 110, 112, 116, 119, 122, 124, 128, 129];
+const PHOTO_IDS = [10, 11, 13, 15, 16, 17, 18, 19, 28, 29, 37, 39, 42, 48, 49, 50, 53, 54, 57, 59, 60, 63, 76, 84, 88, 96, 101, 103, 104, 106, 110, 112, 116, 119, 122, 124, 128, 129];
 const next = () => `https://picsum.photos/id/${PHOTO_IDS[__n++ % PHOTO_IDS.length]}/800/800`;
 
 const photo = (_legacy: string, timestamp: string, city: string): Cell => ({
