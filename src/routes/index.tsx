@@ -62,6 +62,41 @@ function Column() {
     return () => observer.disconnect();
   }, [moments]);
 
+  // Wheel: the moment at centre is full size; others shrink and tilt away like a ring.
+  useEffect(() => {
+    const root = scrollRef.current;
+    if (!root) return;
+    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    let raf = 0;
+    const update = () => {
+      raf = 0;
+      const r = root.getBoundingClientRect();
+      const cy = r.top + r.height / 2;
+      itemRefs.current.forEach((el) => {
+        const b = el.getBoundingClientRect();
+        const d = Math.max(-1.6, Math.min(1.6, (b.top + b.height / 2 - cy) / (r.height / 2)));
+        const a = Math.abs(d);
+        if (reduce) {
+          el.style.opacity = String(1 - Math.min(a, 1) * 0.3);
+          return;
+        }
+        el.style.transform = `perspective(900px) rotateX(${-d * 38}deg) scale(${1 - Math.min(a, 1.2) * 0.28})`;
+        el.style.opacity = String(Math.max(0.55, 1 - a * 0.35));
+      });
+    };
+    const onScroll = () => {
+      if (!raf) raf = requestAnimationFrame(update);
+    };
+    update();
+    root.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll);
+    return () => {
+      root.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onScroll);
+      cancelAnimationFrame(raf);
+    };
+  }, [moments]);
+
   // A newly committed moment brings the column back to the top.
   useEffect(() => {
     if (!justCreatedId) return;
@@ -106,7 +141,7 @@ function Column() {
                 className={`focusable ${activeId === moment.id ? "is-active" : ""} ${
                   justCreatedId === moment.id ? "item-enter" : ""
                 }`}
-                style={{ scrollSnapAlign: "center", marginBottom: 72 }}
+                style={{ scrollSnapAlign: "center", marginBottom: 24 }}
               >
                 <p className="stamp-date pb-3">{formatDate(moment.initiatorCell.timestamp)}</p>
                 <div

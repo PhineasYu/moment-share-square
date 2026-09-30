@@ -100,6 +100,29 @@ const SEED: Moment[] = [
   },
 ];
 
+// More remembered days — enough to feel the wheel turn.
+const POOL = [m1, m2, m3, m4, m5, m6];
+const GLYPHS = ["🌙", "☕", "🌧️", "🍜", "🌿", "✨"];
+const EXTRA: Moment[] = Array.from({ length: 12 }, (_, k) => {
+  const d = new Date(Date.UTC(2026, 4, 26 - k * 4));
+  const day = d.toISOString().slice(0, 10);
+  const youFirst = k % 2 === 0;
+  const a = youFirst ? "Stockholm" : "Guangzhou";
+  const b = youFirst ? "Guangzhou" : "Stockholm";
+  const reply: Cell | null =
+    k % 5 === 3
+      ? null
+      : k % 3 === 1
+        ? emoji(GLYPHS[k % GLYPHS.length]!, `${day}T21:${10 + k}`, b)
+        : photo(POOL[(k + 3) % POOL.length]!, `${day}T20:${20 + k}`, b);
+  return {
+    id: `x${k}`,
+    initiator: youFirst ? "you" : "friend",
+    initiatorCell: photo(POOL[k % POOL.length]!, `${day}T0${7 + (k % 3)}:${15 + k}`, a),
+    responderCell: reply,
+  };
+});
+
 type State = {
   perspective: PersonId;
   moments: Moment[];
@@ -109,7 +132,7 @@ type State = {
 
 let state: State = {
   perspective: "you",
-  moments: SEED,
+  moments: [...SEED, ...EXTRA],
   justPairedId: null,
   justCreatedId: null,
 };
