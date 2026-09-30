@@ -1,5 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 
+import { Camera, Clock, Image as ImageIcon, Smile } from "lucide-react";
+
 import { DrumPicker } from "@/components/DrumPicker";
 import { commit } from "@/lib/store";
 
@@ -52,13 +54,14 @@ export function AddSheet({
     onClose();
   };
 
-  const row = "sheet-row flex w-full items-center px-5 text-left";
+  const row = "sheet-row flex w-full items-center justify-center gap-[10px]";
+  const sep = <div className="sheet-sep" aria-hidden="true" />;
 
   return (
     <div className="fixed inset-0 z-50 flex items-end" onClick={onClose}>
       <div
         className={`relative mx-auto w-full max-w-[420px] bg-background ${open ? "sheet-in" : "sheet-out"}`}
-        style={{ boxShadow: "0 -12px 32px rgba(0,0,0,0.06)", paddingTop: 12, paddingBottom: 12 }}
+        style={{ boxShadow: "0 -12px 32px rgba(0,0,0,0.06)", paddingTop: 0, paddingBottom: 0 }}
         onClick={(e) => e.stopPropagation()}
         onTouchStart={(e) => {
           startY.current = e.touches[0]?.clientY ?? null;
@@ -90,18 +93,20 @@ export function AddSheet({
           style={{ height: 56 }}
           onClick={() => cameraRef.current?.click()}
         >
-          Take a photo
+          <Camera size={16} strokeWidth={1.5} aria-hidden="true" />
+          <span>Take a photo</span>
         </button>
-        <div style={{ height: 6 }} />
+        {sep}
         <button
           type="button"
           className={row}
           style={{ height: 56 }}
           onClick={() => fileRef.current?.click()}
         >
-          Choose a photo
+          <ImageIcon size={16} strokeWidth={1.5} aria-hidden="true" />
+          <span>Choose a photo</span>
         </button>
-        <div style={{ height: 6 }} />
+        {sep}
         <button
           type="button"
           className={row}
@@ -109,12 +114,15 @@ export function AddSheet({
           aria-expanded={emojiOpen}
           onClick={() => setEmojiOpen((v) => !v)}
         >
-          Send an emoji
+          <Smile size={16} strokeWidth={1.5} aria-hidden="true" />
+          <span>Send an emoji</span>
         </button>
 
         <div className={`emoji-row ${emojiOpen ? "open" : ""}`}>
-          <div style={{ height: 6 }} />
-          <div className="emoji-row-inner flex items-center justify-between px-5" style={{ height: 55 }}>
+          <div
+            className="emoji-row-inner flex items-center justify-between"
+            style={{ height: 56, background: "#f3f3f1" }}
+          >
             {EMOJI.map((glyph) => (
               <button
                 key={glyph}
@@ -133,7 +141,7 @@ export function AddSheet({
           </div>
         </div>
 
-        <div style={{ height: 6 }} />
+        {sep}
         <button
           type="button"
           className={row}
@@ -141,12 +149,12 @@ export function AddSheet({
           aria-expanded={windowOpen}
           onClick={() => setWindowOpen((v) => !v)}
         >
-          I have time
+          <Clock size={16} strokeWidth={1.5} aria-hidden="true" />
+          <span>I have time</span>
         </button>
 
         {windowOpen ? (
           <>
-            <div style={{ height: 6 }} />
             <div className="px-5 py-6">
               <DrumPicker
                 values={[5, 10, 15, 20, 30, 45, 60, 90]}

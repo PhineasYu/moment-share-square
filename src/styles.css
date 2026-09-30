@@ -592,7 +592,7 @@
   }
 }
 
-/* sheet rows: pale grey bands instead of black rules */
+/* sheet rows: pale grey bands with short white separator lines */
 .sheet-row {
   background: #f3f3f1;
   color: #000;
@@ -602,4 +602,22 @@
   background: #000;
   color: #fff;
   transition: none;
+}
+
+.sheet-sep {
+  position: relative;
+  width: 100%;
+  height: 2px;
+  background: #f3f3f1;
+  pointer-events: none;
+}
+.sheet-sep::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 0;
+  width: 56px;
+  height: 2px;
+  transform: translateX(-50%);
+  background: #fff;
 }
