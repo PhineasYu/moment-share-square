@@ -188,7 +188,17 @@
   font-family: "Cormorant Garamond", serif;
   font-size: 1.5rem;
   font-style: italic;
-  line-height: 1.28;
+  line-height: calc(1.5rem * 1.28 + 4px);
+}
+
+.today-slot {
+  aspect-ratio: 2 / 1;
+  border: 1px solid #000;
+}
+
+.today-slot:active .plus::before,
+.today-slot:active .plus::after {
+  background: #fff;
 }
 
 :focus-visible {
