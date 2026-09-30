@@ -55,7 +55,7 @@ export function Rectangle({ moment, perspective, isNewest, onPlus, pairing, deta
   return (
     <div className={`rect ${pairing ? "pairing" : ""} ${detail ? "detail" : ""}`}>
       {paired || isNewest ? (
-        <div className="cell cell-right">
+        <div className={`cell cell-right ${isNewest ? "" : "vintage"}`}>
           {right ? (
             <CellBody cell={right} />
           ) : (
@@ -80,7 +80,7 @@ export function Rectangle({ moment, perspective, isNewest, onPlus, pairing, deta
         </div>
       ) : null}
 
-      <div className="cell cell-left" style={{ width: open ? "50%" : "100%" }}>
+      <div className={`cell cell-left ${isNewest ? "vintage-soft" : "vintage"}`} style={{ width: open ? "50%" : "100%" }}>
         <CellBody cell={left} />
       </div>
 
