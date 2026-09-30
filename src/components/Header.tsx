@@ -22,7 +22,7 @@ export function Header() {
   return (
     <header
       className="fixed left-0 right-0 top-0 z-40 bg-background"
-      style={{ height: 56, borderBottom: "1px solid #000" }}
+      style={{ height: 56 }}
     >
       <div className="mx-auto flex h-full w-full max-w-[420px] items-center justify-between px-5">
         <span className="flex items-center">

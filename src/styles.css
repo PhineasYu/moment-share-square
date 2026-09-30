@@ -588,3 +588,15 @@
     transition: none;
   }
 }
+
+/* sheet rows: pale grey bands instead of black rules */
+.sheet-row {
+  background: #f3f3f1;
+  color: #000;
+  transition: background-color var(--dur-fast) linear, color var(--dur-fast) linear;
+}
+.sheet-row:active {
+  background: #000;
+  color: #fff;
+  transition: none;
+}
