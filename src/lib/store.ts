@@ -189,7 +189,9 @@ export function commit(input: { kind: "photo" | "emoji"; photoUrl?: string; emoj
   const cell: Cell =
     input.kind === "emoji"
       ? emoji(input.emoji ?? "🙂", nowStamp(), people[person].city)
-      : photo(input.photoUrl ?? "", nowStamp(), people[person].city);
+      : input.photoUrl
+        ? { kind: "photo", photoUrl: input.photoUrl, timestamp: nowStamp(), city: people[person].city }   // the photo the person actually took or chose
+        : photo("", nowStamp(), people[person].city);
 
   const newest = state.moments[0];
   if (newest && canRespond(newest, person)) {
